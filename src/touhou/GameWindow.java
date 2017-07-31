@@ -24,6 +24,8 @@ public class GameWindow extends Frame {
     private int playerX = 192 ;
     private int playerY = 600 ;
     private int backgroundY=-2400;
+    private int x;
+    private int y;
 
     public GameWindow() {
         background = SpriteUtils.loadImage("./assets/images/background/0.png");
@@ -59,22 +61,24 @@ public class GameWindow extends Frame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(e.getKeyCode()==KeyEvent.VK_RIGHT)
-                {
-                    playerX=playerX+5;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_LEFT){
-                    playerX=playerX-5;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_UP){
-                    playerY=playerY-5;
-                }
-                if(e.getKeyCode()==KeyEvent.VK_DOWN){
-                    playerY+=5;
-                }
+                    x=3;
+                if(e.getKeyCode()==KeyEvent.VK_LEFT)
+                    x=-3;
+                if(e.getKeyCode()==KeyEvent.VK_UP)
+                    y=-3;
+                if(e.getKeyCode()==KeyEvent.VK_DOWN)
+                    y=3;
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+                    x=0;
+                if(e.getKeyCode()==KeyEvent.VK_LEFT)
+                    x=0;
+                if(e.getKeyCode()==KeyEvent.VK_UP)
+                    y=0;
+                if(e.getKeyCode()==KeyEvent.VK_DOWN)
+                    y=0;
 
             }
         });
@@ -95,6 +99,8 @@ public class GameWindow extends Frame {
     }
 
     private void run() {
+        playerX+=x;
+        playerY+=y;
 
 
     }
