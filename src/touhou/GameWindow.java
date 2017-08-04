@@ -103,7 +103,7 @@ public class GameWindow extends Frame {
     }
 
     private void render() {
-        backbufferGraphics.setColor(Color.orange);
+        backbufferGraphics.setColor(Color.black);
         backbufferGraphics.fillRect(0, 0, 1024, 768);
         backbufferGraphics.drawImage(background, 0, backgroundY , null);
         if(backgroundY < 0) backgroundY += 3;
