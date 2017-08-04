@@ -7,7 +7,10 @@ import touhou.players.Player;
 import touhou.players.PlayerSpell;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -74,33 +77,6 @@ public class GameWindow extends Frame {
                 inputManager.keyReleased(e);
             }
         });
-
-        this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-               inputManager.mousePressed(e);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-               inputManager.mousePressed(e);
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
     }
 
     public void loop() {
@@ -122,6 +98,7 @@ public class GameWindow extends Frame {
        for(PlayerSpell playerSpell : playerSpells){
            //lay moi con spell
            playerSpell.run();
+           playerSpell.constraints = new Constraints(0,708,9,374);
        }
     }
 

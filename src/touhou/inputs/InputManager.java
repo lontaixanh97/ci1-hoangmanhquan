@@ -50,8 +50,4 @@ public class InputManager {
                 break;
         }
     }
-    public void mousePressed(MouseEvent e) {
-        switch(e.getClickCount()){
-                case 
-    }
 }
