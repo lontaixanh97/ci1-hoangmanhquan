@@ -67,6 +67,11 @@ public class Vector2D {
         return new Vector2D(this.x/mag, this.y/mag);
     }
 
+    public Vector2D Rotation(double deg){
+        double rad = (deg / 180) * 3.14;
+        return new Vector2D((float)(x * Math.cos(rad) - y * Math.sin(rad)), (float)( y * Math.cos(rad) + x * Math.sin(rad)));
+    }
+
 
 
 
