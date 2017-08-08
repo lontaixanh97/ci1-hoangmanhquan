@@ -1,21 +1,19 @@
-package touhou.players;
+package touhou.enemies;
 
 import tklibs.SpriteUtils;
-import touhou.bases.Constraints;
 import touhou.bases.Vector2D;
 import touhou.bases.renderers.ImageRenderer;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-public class PlayerSpell {
+public class EnemyBullet {
     private ImageRenderer renderer;
     Vector2D position;
-    
-    PlayerSpell() {
-        this.position = new Vector2D();
-        BufferedImage image = SpriteUtils.loadImage("assets/images/players/spells/0.png");
+
+    public EnemyBullet(Vector2D position) {
+        this.position = position;
+        BufferedImage image = SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png");
         renderer = new ImageRenderer(image);
     }
 

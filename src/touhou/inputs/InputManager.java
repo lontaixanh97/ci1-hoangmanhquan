@@ -11,6 +11,7 @@ public class InputManager {
     public boolean rightPressed;
     public boolean leftPressed;
     public boolean xPressed;
+    public boolean zPressed;
 
     public void keyPressed(KeyEvent e){
         switch (e.getKeyCode()) {
@@ -29,6 +30,8 @@ public class InputManager {
             case VK_X:
                 xPressed = true;
                 break;
+            case VK_Z:
+                zPressed = true;
         }
     }
     public void keyReleased(KeyEvent e) {
@@ -48,6 +51,9 @@ public class InputManager {
             case VK_X :
                 xPressed = false;
                 break;
+            case VK_Z:
+                zPressed = false;
+
         }
     }
 }

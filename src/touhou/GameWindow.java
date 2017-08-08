@@ -2,6 +2,8 @@ package touhou;
 
 import tklibs.SpriteUtils;
 import touhou.bases.Constraints;
+import touhou.bases.FrameCounter;
+import touhou.enemies.Enemy;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
 import touhou.players.PlayerSpell;
@@ -27,19 +29,27 @@ public class GameWindow extends Frame {
     private BufferedImage backbufferImage;
     private Graphics2D backbufferGraphics;
     private BufferedImage background;
+    private int x;
+    private int y;
+
+    public FrameCounter delay;
 
     private int backgroundY=-2400;
 
     Player player = new Player();
     ArrayList<PlayerSpell> playerSpells = new ArrayList<>();
+
+    ArrayList<Enemy> enemies = new ArrayList<>();
+
     InputManager inputManager = new InputManager();
-
-
+    
     public GameWindow() {
+        pack();
         background = SpriteUtils.loadImage("assets/images/background/0.png");
-        player.inputManager = this.inputManager;
+        player.setInputManager(this.inputManager);
         player.playerSpells = this.playerSpells;
-        player.constraints = new Constraints(30,768-60,0,384-24);
+        player.setConstraints(new Constraints(getInsets().top, 768, getInsets().left, 384));
+        delay = new FrameCounter(40);
         setupGameLoop();
         setupWindow();
     }
@@ -65,15 +75,14 @@ public class GameWindow extends Frame {
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                //To change body of implemented methods use File | Settings | File Templates.
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
                 inputManager.keyPressed(e);
             }
             @Override
             public void keyReleased(KeyEvent e) {
+
                 inputManager.keyReleased(e);
             }
         });
@@ -95,12 +104,33 @@ public class GameWindow extends Frame {
 
     private void run() {
        player.run();
-       for(PlayerSpell playerSpell : playerSpells){
-           //lay moi con spell
+
+       for(PlayerSpell playerSpell : playerSpells){ //lay moi con spell
            playerSpell.run();
-           playerSpell.constraints = new Constraints(0,708,9,374);
        }
+
+        for (Enemy enemy : enemies){
+           enemy.run();
+        }
+
+        if(delay.run()) {
+            delay.reset();
+            castEnemy();
+        }
     }
+
+     private void castEnemy() {
+         Enemy newEnemy = new Enemy(x,y);
+         enemies.add(newEnemy);
+         for (int i = 0; i < enemies.size(); i++) {
+             Enemy enemy = enemies.get(i);
+             x += 20;
+             if (x >= 384) x = 0;
+         }
+     }
+
+    
+
 
     private void render() {
         backbufferGraphics.setColor(Color.black);
@@ -112,7 +142,12 @@ public class GameWindow extends Frame {
         for(PlayerSpell playerSpell : playerSpells){
             playerSpell.render(backbufferGraphics);
         }
-        
+
+        for (Enemy enemy : enemies){
+            enemy.render(backbufferGraphics);
+        }
+
+
         windowGraphics.drawImage(backbufferImage,0,0,null);
     }
 }

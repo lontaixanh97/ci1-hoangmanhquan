@@ -56,6 +56,15 @@ public class Vector2D {
         return new Vector2D(this.x * f, this.y * f);
     }
 
+    public void set(float dx, float dy){
+        this.x += dx;
+        this.y += dy;
+    }
+
+    public void set(Vector2D other){
+        set(other.x,other.y);
+    }
+
 
     public float magnitude(){          //do dai vector
 
