@@ -2,6 +2,8 @@ package touhou.enemies;
 
 import bases.FrameCounter;
 import bases.GameObject;
+import bases.Point;
+import bases.Rectangle;
 import tklibs.SpriteUtils;
 import bases.Vector2D;
 import bases.renderers.ImageRenderer;
@@ -39,4 +41,5 @@ public class Enemy extends GameObject {
     private void fly() {
         position.addUp(0,SPEED);
     }
+
 }

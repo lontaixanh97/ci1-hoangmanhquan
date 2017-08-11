@@ -6,7 +6,7 @@ import bases.GameObject;
 import java.util.Random;
 import java.util.Vector;
 
-public class EnemySpawner {
+public class EnemySpawner extends GameObject {
     private FrameCounter spawnCounter;
     private Random random;
     public EnemySpawner(){

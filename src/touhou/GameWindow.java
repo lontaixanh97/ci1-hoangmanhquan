@@ -55,7 +55,6 @@ public class GameWindow extends Frame {
     private void addBackground(){
         background.getPosition().set(384/2,-800);
         GameObject.add(background);
-
     }
 
     private void setupGameLoop() {
