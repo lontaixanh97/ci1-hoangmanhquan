@@ -1,14 +1,15 @@
 import touhou.GameWindow;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 /**
  * Created by huynq on 7/4/17.
  */
 public class Program {
     public static void main(String[] args) {
-       System.out.println("Hello world");
-       GameWindow gameWindow = new GameWindow();
-       System.out.println("Starting loop");
-       gameWindow.loop();
+      GameWindow gameWindow = new GameWindow();
+      gameWindow.loop();
 
     }
 }

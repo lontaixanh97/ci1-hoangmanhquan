@@ -1,27 +1,18 @@
 package touhou.enemies;
 
+import bases.GameObject;
+import bases.renderers.ImageRenderer;
 import tklibs.SpriteUtils;
-import touhou.bases.Vector2D;
-import touhou.bases.renderers.ImageRenderer;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+public class EnemyBullet extends GameObject {
+    private static final float SPEED = 5;
 
-public class EnemyBullet {
-    private ImageRenderer renderer;
-    Vector2D position;
-
-    public EnemyBullet(Vector2D position) {
-        this.position = position;
-        BufferedImage image = SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png");
-        renderer = new ImageRenderer(image);
+    public EnemyBullet(){
+        super();
+        this.renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/enemies/bullets/blue.png"));
     }
 
-    public void run() {
-        position.subtractBy(0,5);
-    }
-
-    public void render(Graphics2D g2d){
-        renderer.render(g2d,position);
+    public void run(){
+        position.addUp(0,SPEED);
     }
 }

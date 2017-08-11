@@ -1,34 +1,42 @@
 package touhou.enemies;
 
+import bases.FrameCounter;
+import bases.GameObject;
 import tklibs.SpriteUtils;
-import touhou.bases.FrameCounter;
-import touhou.bases.Vector2D;
-import touhou.bases.renderers.ImageRenderer;
-import touhou.inputs.InputManager;
+import bases.Vector2D;
+import bases.renderers.ImageRenderer;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.Random;
 
-public class Enemy {
-    private ImageRenderer renderer;
-    public Vector2D position;
+public class Enemy extends GameObject {
+    private static final float SPEED = 2;
+    private FrameCounter frameCounter;
 
-    ArrayList<EnemyBullet> enemyBullets = new ArrayList<>();
-
-    
-    public Enemy(int x, int y) {
-        this.position = new Vector2D(x,y);
-        BufferedImage image = SpriteUtils.loadImage("C:\\Users\\Quan\\ci-begin\\assets\\images\\enemies\\level0\\black\\0.png");
-        renderer = new ImageRenderer(image);
+    public Enemy(){
+        super();
+        renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/enemies/level0/blue/0.png")) ;
+        frameCounter = new FrameCounter(30);
     }
 
+    //controller
     public void run(){
-        position.addUp(0,3);
+        super.run();
+        fly();
+        shoot();
     }
 
+    private void shoot() {
+        EnemyBullet enemyBullet = new EnemyBullet();
 
-    public void render(Graphics2D g2d){
-        renderer.render(g2d,position);
+        if(frameCounter.run()) {
+            frameCounter.reset();
+            enemyBullet.getPosition().set(this.position.add(0, 10));
+            GameObject.add(enemyBullet);
+        }
+    }
+
+    private void fly() {
+        position.addUp(0,SPEED);
     }
 }

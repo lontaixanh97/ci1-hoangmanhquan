@@ -1,13 +1,10 @@
 package touhou;
 
-import bases.GameObject;
 import tklibs.SpriteUtils;
-import bases.Constraints;
-import touhou.background.Background;
-import touhou.enemies.Enemy;
-import touhou.enemies.EnemySpawner;
+import touhou.bases.Constraints;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
+import touhou.players.PlayerSpell;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +12,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
+import java.util.ArrayList;
+
+import static java.awt.event.KeyEvent.*;
 
 //https://github.com/qhuydtvt/ci1-huynq
 
@@ -31,31 +30,20 @@ public class GameWindow extends Frame {
     private BufferedImage backbufferImage;
     private Graphics2D backbufferGraphics;
 
+    private BufferedImage background;
+
     Player player = new Player();
-    Background background = new Background();
-    EnemySpawner enemySpawner = new EnemySpawner();        //TODO: Sua thanh GameObject
+    ArrayList<PlayerSpell> playerSpells = new ArrayList<>();
     InputManager inputManager = new InputManager();
 
     public GameWindow() {
         pack();
-        addBackground();
-        addPlayer();
+        background = SpriteUtils.loadImage("assets/images/background/0.png");
+        player.inputManager = this.inputManager;
+        player.constraints = new Constraints(getInsets().top, 768, getInsets().left, 384);
+        player.playerSpells = this.playerSpells;
         setupGameLoop();
         setupWindow();
-    }
-
-    private void addPlayer() {
-        player.setInputManager(this.inputManager);
-        player.setContraints(new Constraints(getInsets().top, 768, getInsets().left, 384));
-        player.getPosition().set(192,600);
-        GameObject.add(player);
-
-    }
-
-    private void addBackground(){
-        background.getPosition().set(384/2,-800);
-        GameObject.add(background);
-
     }
 
     private void setupGameLoop() {
@@ -112,16 +100,23 @@ public class GameWindow extends Frame {
     }
 
     private void run() {
-        GameObject.runAll();
-        enemySpawner.spawn();
+        player.run();
+
+        for (PlayerSpell playerSpell : playerSpells) {
+            playerSpell.run();
+        }
     }
 
     private void render() {
         backbufferGraphics.setColor(Color.black);
         backbufferGraphics.fillRect(0, 0, 1024, 768);
+        backbufferGraphics.drawImage(background, 0, 0, null);
         player.render(backbufferGraphics);
 
-        GameObject.renderAll(backbufferGraphics);
+        for (PlayerSpell playerSpell: playerSpells) {
+            playerSpell.render(backbufferGraphics);
+        }
+
         windowGraphics.drawImage(backbufferImage, 0, 0, null);
     }
 }

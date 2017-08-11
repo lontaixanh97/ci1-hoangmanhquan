@@ -1,5 +1,8 @@
-package touhou.bases;
+package bases;
 
+/**
+ * Created by huynq on 8/2/17.
+ */
 public class Constraints {
     public float top;
     public float bottom;
@@ -13,15 +16,10 @@ public class Constraints {
         this.right = right;
     }
 
-    public void make(Vector2D position){
-        if(position.y < top)
-            position.y = top;
-        if(position.y > bottom )
-            position.y = bottom;
-        if(position.x > right)
-            position.x = right;
-        if(position.x < left)
-            position.x = left;
-
+    public void make(Vector2D position) {
+        if (position.y < top) position.y = top;
+        if (position.y > bottom) position.y = bottom;
+        if (position.x < left) position.x = left;
+        if (position.x > right) position.x = right;
     }
 }

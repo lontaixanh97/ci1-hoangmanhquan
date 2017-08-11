@@ -1,80 +1,73 @@
 package touhou.players;
 
+import bases.GameObject;
 import tklibs.SpriteUtils;
-import touhou.bases.Constraints;
-import touhou.bases.FrameCounter;
-import touhou.bases.Vector2D;
-import touhou.bases.renderers.ImageRenderer;
+import bases.Constraints;
+import bases.FrameCounter;
+import bases.renderers.ImageRenderer;
 import touhou.inputs.InputManager;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.util.Vector;
 
-public class Player {
-    private Vector2D position;
+/**
+ * Created by huynq on 8/2/17.
+ */
+public class Player extends GameObject {
+    private static final int SPEED = 5;
     private InputManager inputManager;
     private Constraints constraints;
-    private final int SPEED = 5;
-    
-    public ArrayList<PlayerSpell> playerSpells;
-
-    private ImageRenderer renderer;
 
     private FrameCounter coolDownCounter;
     private boolean spellLock;
-    private void unlockSpell(){
-        if(spellLock){
-            if(coolDownCounter.run()){
-                spellLock = false;
-            }
-        }
+
+    public Player() {
+        super();
+        this.spellLock = false;
+        renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
+        coolDownCounter = new FrameCounter(5);
     }
 
-    public Player(){     // ham tao
-        position = new Vector2D(192,600);
-        BufferedImage image = SpriteUtils.loadImage("assets/images/players/straight/0.png");
-        renderer = new ImageRenderer(image);
-        coolDownCounter = new FrameCounter(7);
+    public void setContraints(Constraints contraints) {
+        this.constraints = contraints;
     }
 
-    public void setConstraints(Constraints constraints){
-        this.constraints = constraints ;
-    }
+    public void run() {
+        super.run();
+        if (inputManager.upPressed)
+            position.addUp(0, -SPEED);
+        if (inputManager.downPressed)
+            position.addUp(0, SPEED);
+        if (inputManager.leftPressed)
+            position.addUp(-SPEED, 0);
+        if (inputManager.rightPressed)
+            position.addUp(SPEED, 0);
 
-    public void run()
-    {
-        if(inputManager.upPressed)
-            position.addUp(0,-SPEED);
-        if(inputManager.downdPressed)
-            position.addUp(0,SPEED);
-        if(inputManager.rightPressed)
-            position.addUp(SPEED,0);
-        if(inputManager.leftPressed)
-            position.addUp(-SPEED,0);
-        if(constraints != null){
+        if (constraints != null) {
             constraints.make(position);
         }
-        
-        /*if(coolDownCounter.run()) {
-            coolDownCounter.reset();
-        } */
-            castSpell();
+
+        castSpell();
     }
 
     private void castSpell() {
         if (inputManager.xPressed && !spellLock) {
             PlayerSpell newSpell = new PlayerSpell();
-            newSpell.position.set(this.position);
-            playerSpells.add(newSpell);
+            newSpell.getPosition().set(this.position.add(0, -30));
+            GameObject.add(newSpell);
+
             spellLock = true;
             coolDownCounter.reset();
         }
+
         unlockSpell();
     }
 
-    public void render(Graphics2D g2d){
-      renderer.render(g2d,position);
+    private void unlockSpell() {
+        if (spellLock) {
+            if (coolDownCounter.run()) {
+                spellLock = false;
+            }
+        }
     }
 
     public void setInputManager(InputManager inputManager) {

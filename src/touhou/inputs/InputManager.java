@@ -1,19 +1,20 @@
 package touhou.inputs;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import static java.awt.event.KeyEvent.*;
 
+/**
+ * Created by huynq on 8/2/17.
+ */
 public class InputManager {
     public boolean upPressed;
-    public boolean downdPressed;
-    public boolean rightPressed;
+    public boolean downPressed;
     public boolean leftPressed;
+    public boolean rightPressed;
     public boolean xPressed;
-    public boolean zPressed;
 
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case VK_RIGHT:
                 rightPressed = true;
@@ -25,17 +26,16 @@ public class InputManager {
                 upPressed = true;
                 break;
             case VK_DOWN:
-                downdPressed = true;
+                downPressed = true;
                 break;
             case VK_X:
                 xPressed = true;
                 break;
-            case VK_Z:
-                zPressed = true;
         }
     }
+
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case VK_RIGHT:
                 rightPressed = false;
                 break;
@@ -46,14 +46,11 @@ public class InputManager {
                 upPressed = false;
                 break;
             case VK_DOWN:
-                downdPressed = false;
+                downPressed = false;
                 break;
-            case VK_X :
+            case VK_X:
                 xPressed = false;
                 break;
-            case VK_Z:
-                zPressed = false;
-
         }
     }
 }
