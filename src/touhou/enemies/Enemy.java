@@ -2,14 +2,8 @@ package touhou.enemies;
 
 import bases.FrameCounter;
 import bases.GameObject;
-import bases.Point;
-import bases.Rectangle;
 import tklibs.SpriteUtils;
-import bases.Vector2D;
 import bases.renderers.ImageRenderer;
-
-import java.awt.*;
-import java.util.Random;
 
 public class Enemy extends GameObject {
     private static final float SPEED = 2;
