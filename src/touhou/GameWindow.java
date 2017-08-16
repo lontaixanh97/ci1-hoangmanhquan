@@ -1,13 +1,12 @@
 package touhou;
 
 import bases.GameObject;
-import tklibs.SpriteUtils;
 import bases.Constraints;
 import touhou.background.Background;
-import touhou.enemies.Enemy;
 import touhou.enemies.EnemySpawner;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
+import touhou.supporters.Supporter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +14,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.util.Vector;
 
 //https://github.com/qhuydtvt/ci1-huynq
 
