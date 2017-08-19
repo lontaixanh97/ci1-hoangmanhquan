@@ -4,12 +4,14 @@ import bases.GameObject;
 import bases.Vector2D;
 import bases.physics.BoxCollider;
 import bases.physics.PhysicsBody;
+import bases.pools.GameObjectPool;
+import javafx.scene.shape.Sphere;
 import tklibs.SpriteUtils;
 import bases.Constraints;
 import bases.FrameCounter;
 import bases.renderers.ImageRenderer;
 import touhou.inputs.InputManager;
-import touhou.supporters.Supporter;
+import touhou.players.spheres.PlayerSphere;
 
 import java.util.Vector;
 
@@ -18,10 +20,11 @@ import java.util.Vector;
  */
 public class Player extends GameObject implements PhysicsBody {
     private static final int SPEED = 5;
+    private int PlayerHP;
+
     private InputManager inputManager;
     private Constraints constraints;
     private BoxCollider boxCollider;
-    private int PlayerHP;
 
     private FrameCounter coolDownCounter;
     private boolean spellLock;
@@ -29,19 +32,31 @@ public class Player extends GameObject implements PhysicsBody {
     public Player() {
         super();
         this.spellLock = false;
-        renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
+        this.renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
+        this.coolDownCounter = new FrameCounter(3);
         boxCollider = new BoxCollider(20,40);
         this.children.add(boxCollider);
-        this.setPlayerHP(5);
-        coolDownCounter = new FrameCounter(5);
+        this.setPlayerHP(20);
+        addSpheres();
+    }
+
+    private void addSpheres() {
+        PlayerSphere leftSphere = new PlayerSphere();
+        leftSphere.getPosition().set(-20,0);
+        PlayerSphere rightSphere = new PlayerSphere();
+        rightSphere.getPosition().set(20,0);
+        rightSphere.setReverse(true);
+        this.children.add(leftSphere);
+        this.children.add(rightSphere);
     }
 
     public void setContraints(Constraints contraints) {
         this.constraints = contraints;
     }
 
-    public void run(Vector2D parentPosition) {
-        super.run(parentPosition);
+    public void run(Vector2D parentPostion) {
+        super.run(parentPostion);
+
         if (inputManager.upPressed)
             position.addUp(0, -SPEED);
         if (inputManager.downPressed)
@@ -56,14 +71,12 @@ public class Player extends GameObject implements PhysicsBody {
         }
 
         castSpell();
-        spawn();
     }
 
     private void castSpell() {
         if (inputManager.xPressed && !spellLock) {
-            PlayerSpell newSpell = new PlayerSpell();
+            PlayerSpell newSpell = GameObjectPool.recycle(PlayerSpell.class);
             newSpell.getPosition().set(this.position.add(0, -30));
-            GameObject.add(newSpell);
 
             spellLock = true;
             coolDownCounter.reset();
@@ -71,11 +84,8 @@ public class Player extends GameObject implements PhysicsBody {
 
         unlockSpell();
     }
-    public void spawn(){
-        Supporter supporter = new Supporter(this.getPosition().x, this.getPosition().y);
-        supporter.getPosition().set(this.getPosition().add(20, 10));
-        GameObject.add(supporter);
-    }
+
+
 
     private void unlockSpell() {
         if (spellLock) {
@@ -85,6 +95,14 @@ public class Player extends GameObject implements PhysicsBody {
         }
     }
 
+    public int getPlayerHP() {
+        return PlayerHP;
+    }
+
+    public void setPlayerHP(int playerHP) {
+        PlayerHP = playerHP;
+    }
+
     public void setInputManager(InputManager inputManager) {
         this.inputManager = inputManager;
     }
@@ -92,13 +110,5 @@ public class Player extends GameObject implements PhysicsBody {
     @Override
     public BoxCollider getBoxCollider() {
         return this.boxCollider;
-    }
-
-    public int getPlayerHP() {
-        return PlayerHP;
-    }
-
-    public void setPlayerHP(int playerHP) {
-        PlayerHP = playerHP;
     }
 }

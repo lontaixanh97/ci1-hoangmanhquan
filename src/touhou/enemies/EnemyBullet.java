@@ -28,7 +28,7 @@ public class EnemyBullet extends GameObject implements PhysicsBody {
     }
 
     private void hitPlayer(){
-        Player player = Physics.collideWithPlayer(this.boxCollider);
+        Player player = Physics.collideWith(this.boxCollider, Player.class);
         if(player != null){
             player.setPlayerHP(player.getPlayerHP() - BulletDamage );
             if(player.getPlayerHP() == 0) {

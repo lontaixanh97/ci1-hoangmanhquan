@@ -1,7 +1,7 @@
 package touhou;
 
 import tklibs.SpriteUtils;
-import touhou.bases.Constraints;
+import bases.Constraints;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
 import touhou.players.PlayerSpell;

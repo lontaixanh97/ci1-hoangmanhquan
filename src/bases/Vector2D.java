@@ -1,8 +1,5 @@
 package bases;
 
-/**
- * Created by huynq on 8/2/17.
- */
 public class Vector2D {
     public float x;
     public float y;
@@ -30,10 +27,6 @@ public class Vector2D {
         set(other.x, other.y);
     }
 
-//    public Vector2D clone() {
-//
-//    }
-
     public void addUp(Vector2D other) {
         addUp(other.x, other.y);
     }
@@ -43,15 +36,19 @@ public class Vector2D {
         this.y -= dy;
     }
 
+    public Vector2D subtract(float dx, float dy) {
+        return new Vector2D(x - dx, y - dy);
+    }
+
+    public Vector2D subtract(Vector2D other) {
+        return subtract(other.x, other.y);
+    }
+
     public void subtractBy(Vector2D other) {
         subtractBy(other.x, other.y);
     }
 
     public Vector2D add(float dx, float dy) {
-//        Vector2D newVector = new Vector2D();
-//        newVector.x = this.x + dx;
-//        newVector.y = this.y + dy;
-//        return newVector;
         return new Vector2D(this.x + dx, this.y + dy);
     }
 

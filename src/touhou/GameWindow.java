@@ -1,12 +1,11 @@
 package touhou;
 
 import bases.GameObject;
+import tklibs.SpriteUtils;
 import bases.Constraints;
-import touhou.background.Background;
 import touhou.enemies.EnemySpawner;
 import touhou.inputs.InputManager;
 import touhou.players.Player;
-import touhou.supporters.Supporter;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.Vector;
 
 //https://github.com/qhuydtvt/ci1-huynq
 
@@ -24,19 +24,20 @@ public class GameWindow extends Frame {
 
     private long lastTimeUpdate;
     private long currentTime;
-    private Graphics2D windowGraphics;
 
     private BufferedImage backbufferImage;
     private Graphics2D backbufferGraphics;
 
+    private BufferedImage background;
+
     Player player = new Player();
-    Background background = new Background();
-    EnemySpawner enemySpawner = new EnemySpawner();        //TODO: Sua thanh GameObject
+    EnemySpawner enemySpawner = new EnemySpawner(); // TODO: Viec cua lop: sua thanh game object
+
     InputManager inputManager = new InputManager();
 
     public GameWindow() {
         pack();
-        addBackground();
+        background = SpriteUtils.loadImage("assets/images/background/0.png");
         addPlayer();
         setupGameLoop();
         setupWindow();
@@ -45,14 +46,9 @@ public class GameWindow extends Frame {
     private void addPlayer() {
         player.setInputManager(this.inputManager);
         player.setContraints(new Constraints(getInsets().top, 768, getInsets().left, 384));
-        player.getPosition().set(192,600);
+        player.getPosition().set(384 / 2, 580);
+
         GameObject.add(player);
-
-    }
-
-    private void addBackground(){
-        background.getPosition().set(384/2,-800);
-        GameObject.add(background);
     }
 
     private void setupGameLoop() {
@@ -67,8 +63,6 @@ public class GameWindow extends Frame {
 
         this.backbufferImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         this.backbufferGraphics = (Graphics2D) this.backbufferImage.getGraphics();
-
-        this.windowGraphics = (Graphics2D) this.getGraphics();
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -113,12 +107,19 @@ public class GameWindow extends Frame {
         enemySpawner.spawn();
     }
 
+    @Override
+    public void update(Graphics g) {
+        g.drawImage(backbufferImage, 0, 0, null);
+    }
+
     private void render() {
+
         backbufferGraphics.setColor(Color.black);
         backbufferGraphics.fillRect(0, 0, 1024, 768);
-        player.render(backbufferGraphics);
+        backbufferGraphics.drawImage(background, 0, 0, null);
 
         GameObject.renderAll(backbufferGraphics);
-        windowGraphics.drawImage(backbufferImage, 0, 0, null);
+
+        repaint(); // ask to repaint
     }
 }
