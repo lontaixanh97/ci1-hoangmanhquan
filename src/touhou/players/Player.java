@@ -29,11 +29,17 @@ public class Player extends GameObject implements PhysicsBody {
     private FrameCounter coolDownCounter;
     private boolean spellLock;
 
+    private Vector2D velocity;
+
+    private PlayerAnimator animator;
+
     public Player() {
         super();
         this.spellLock = false;
-        this.renderer = new ImageRenderer(SpriteUtils.loadImage("assets/images/players/straight/0.png"));
+        this.animator = new PlayerAnimator();
+        this.renderer = animator;
         this.coolDownCounter = new FrameCounter(3);
+        this.velocity = new Vector2D();
         boxCollider = new BoxCollider(20,40);
         this.children.add(boxCollider);
         this.setPlayerHP(20);
@@ -57,20 +63,29 @@ public class Player extends GameObject implements PhysicsBody {
     public void run(Vector2D parentPostion) {
         super.run(parentPostion);
 
+        velocity.set(0, 0);
+
         if (inputManager.upPressed)
-            position.addUp(0, -SPEED);
+            velocity.y -= SPEED;
         if (inputManager.downPressed)
-            position.addUp(0, SPEED);
+            velocity.y += SPEED;
         if (inputManager.leftPressed)
-            position.addUp(-SPEED, 0);
+            velocity.x -= SPEED;
         if (inputManager.rightPressed)
-            position.addUp(SPEED, 0);
+            velocity.x += SPEED;
 
         if (constraints != null) {
             constraints.make(position);
         }
 
+        position.addUp(velocity);
+        animator.update(this);
+
         castSpell();
+    }
+
+    public Vector2D getVelocity() {
+        return velocity;
     }
 
     private void castSpell() {

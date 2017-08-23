@@ -13,7 +13,7 @@ public class GameObjectPool {
         for (GameObject gameObject : pool) {
             if (gameObject.getClass().equals(classz)) {
                 if (!gameObject.isActive()) {
-                    gameObject.setActive(true);
+                    gameObject.reset();
                     return (T) gameObject;
                 }
             }
@@ -29,5 +29,9 @@ public class GameObjectPool {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void clearAll() {
+        pool.clear();
     }
 }

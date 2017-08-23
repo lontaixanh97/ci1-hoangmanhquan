@@ -17,7 +17,7 @@ public class PlayerSphere extends GameObject implements PhysicsBody {
         frameCounter = new FrameCounter(7);
         this.animation = new Animation(
                 2,
-                true,
+                false, true,
                 SpriteUtils.loadImage("assets/images/sphere/0.png"),
                 SpriteUtils.loadImage("assets/images/sphere/1.png"),
                 SpriteUtils.loadImage("assets/images/sphere/2.png"),
@@ -34,7 +34,7 @@ public class PlayerSphere extends GameObject implements PhysicsBody {
 
     public void run(Vector2D parentPosition){
         super.run(parentPosition);
-        sphereShoot();
+        //sphereShoot();
     }
 
     public void sphereShoot(){

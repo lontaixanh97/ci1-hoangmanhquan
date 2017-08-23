@@ -17,7 +17,7 @@ public class SphereBullet extends GameObject implements PhysicsBody {
     private int damage;
 
     public SphereBullet(){
-        this.animation = new Animation(1, false,
+        this.animation = new Animation(1, false,false,
                 SpriteUtils.loadImage("assets/images/sphere-bullets/0.png"),
                 SpriteUtils.loadImage("assets/images/sphere-bullets/1.png"),
                 SpriteUtils.loadImage("assets/images/sphere-bullets/2.png"),
@@ -31,7 +31,7 @@ public class SphereBullet extends GameObject implements PhysicsBody {
 
     public void run(Vector2D parentPosition) {
         super.run(parentPosition);
-        position.addUp(0, -10);
+        this.position.addUp(0,-10);
         hitEnemy();
         deactiveIfNeeded();
     }

@@ -5,10 +5,12 @@ import bases.GameObject;
 import bases.physics.BoxCollider;
 import bases.physics.Physics;
 import bases.physics.PhysicsBody;
+import bases.pools.GameObjectPool;
 import bases.renderers.Animation;
 import tklibs.SpriteUtils;
 import bases.Vector2D;
 import bases.renderers.ImageRenderer;
+import touhou.EnemyExplosion;
 import touhou.players.Player;
 
 import java.awt.*;
@@ -88,5 +90,12 @@ public class Enemy extends GameObject implements PhysicsBody {
 
     public int getEnemyHP() {
         return EnemyHP;
+    }
+
+    public void getHit(int playerSpellDamage) {
+        //TODO: decrease HP
+        this.setActive(false);
+        EnemyExplosion explosion = GameObjectPool.recycle(EnemyExplosion.class);
+        explosion.getPosition().set(this.position);
     }
 }
